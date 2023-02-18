@@ -5,7 +5,7 @@ export {
 }
 
 function encodeQuery(q: string): string {
-	return `q=${encodeURIComponent(q)}`;
+	return `?q=${encodeURIComponent(q)}`;
 }
 
 const apiUrl = "https://api.github.com/";
