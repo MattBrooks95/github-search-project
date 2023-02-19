@@ -1,5 +1,6 @@
 import { buildUrl, encodeQuery } from "./apiHelpers";
-import { CodeSearchResultsMatches } from "./apiTypes";
+import { CodeSearchResults, RateLimit } from "./apiTypes";
+import { defaultValTo } from "./apiHelpers";
 
 export {
 	search
@@ -7,7 +8,7 @@ export {
 
 const searchCodeUrl = buildUrl(['search', 'code']);
 
-async function search(searchString: string): Promise<CodeSearchResultsMatches | null> {
+async function search(searchString: string): Promise<CodeSearchResults | null> {
 	const url = searchCodeUrl(encodeQuery(searchString));
 	console.log(url);
 	const headers = new Headers();
@@ -18,8 +19,26 @@ async function search(searchString: string): Promise<CodeSearchResultsMatches | 
 			method: "GET",
 			headers,
 		}
-	).then(res => res.json())
-	.catch(e => {
+	).then(res => {
+		const limit = res.headers.get("x-ratelimit-limit");
+		const remaining = res.headers.get("x-ratelimit-remaining");
+		const used = res.headers.get("x-ratelimit-used");
+		const reset = res.headers.get("x-ratelimit-reset");
+		return res.json().then(jsonResult => {
+			return Object.assign(
+				{},
+				jsonResult as CodeSearchResults,
+				{
+					rateLimit: {
+						maxRequests: limit,
+						remainingRequests: remaining,
+						usedRequests: used,
+						timeTillReset: defaultValTo(reset, 0, x => Number.parseInt(x) - (new Date().getTime() / 1000)),
+					} as RateLimit
+				}
+			);
+		});
+	}).catch(e => {
 		console.error(e);
 		return null;
 	});

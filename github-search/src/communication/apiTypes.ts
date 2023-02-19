@@ -3,6 +3,7 @@ export type {
 	Owner,
 	Repository,
 	CodeSearchResults,
+	RateLimit
 }
 
 export {
@@ -46,6 +47,7 @@ type CodeSearchResults = {
 	total_count: number;
 	incomplete_results: boolean;
 	items: Item[];
+	rateLimit?: RateLimit;
 }
 
 function initialCodeSearchResults(): CodeSearchResults {
@@ -53,5 +55,13 @@ function initialCodeSearchResults(): CodeSearchResults {
 		total_count: 0,
 		incomplete_results: false,
 		items: [],
+		rateLimit: undefined,
 	}
+}
+
+type RateLimit = {
+	maxRequests: number | null;
+	remainingRequests: number | null;
+	usedRequests: number | null;
+	timeTillReset: number | null;
 }

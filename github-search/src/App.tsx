@@ -41,8 +41,8 @@ function App() {
 		<SearchBar
 			searchField={searchEntryField}
 			searchButton={<Button variant="contained" onClick={doSearch}>Search</Button>}
+			rateLimit={searchResults.rateLimit}
 			/>
-			{/*<div>{searchResults.text_matches !== undefined ? searchResults.text_matches.map(x => <div>{x.fragment}</div>) : "no text matches =("}</div>*/}
 			{searchResults.items.map((i, idx) => <SearchResultItem key={idx} item={i} />)}
 		</div>
 	)

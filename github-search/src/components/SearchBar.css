@@ -4,6 +4,17 @@
 	gap: 6px;
 }
 
-.SearchBar-layout :nth-child(1) {
+.SearchBar-layout .search-bar :nth-child(1) {
 	flex-grow: 2;
+}
+
+.SearchBar-layout .rate-limit {
+	gap: 4px;
+	justify-content: start;
+}
+
+.SearchBar-layout .rate-limit > div {
+	background-color: white;
+	color: black;
+	padding: 0px 4px;
 }

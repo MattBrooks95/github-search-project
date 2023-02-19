@@ -1,7 +1,7 @@
 export {
 	encodeQuery,
 	buildUrl,
-
+	defaultValTo,
 }
 
 function encodeQuery(q: string): string {
@@ -19,6 +19,11 @@ function buildUrlForBase(urlBase: string): (urlParts: string[]) => (searchString
 			searchString,
 		].filter(section => section !== undefined).join('');
 	}
+}
+
+function defaultValTo<F, T>(x: F | null | undefined, defaultVal: T, handleVal: (y: F) => T) {
+	if (x === null || x === undefined) return defaultVal;
+	return handleVal(x);
 }
 
 const buildUrl = buildUrlForBase(apiUrl);
