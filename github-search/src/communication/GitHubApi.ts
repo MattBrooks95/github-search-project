@@ -1,4 +1,5 @@
 import { buildUrl, encodeQuery } from "./apiHelpers";
+import { CodeSearchResultsMatches } from "./apiTypes";
 
 export {
 	search
@@ -10,7 +11,7 @@ async function search(searchString: string): Promise<CodeSearchResultsMatches | 
 	const url = searchCodeUrl(encodeQuery(searchString));
 	console.log(url);
 	const headers = new Headers();
-	headers.set("Accept", "text-match+json");
+	headers.set("Accept", "application/vnd.github.text-match+json");
 	return fetch(
 		url,
 		{

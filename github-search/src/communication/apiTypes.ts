@@ -3,14 +3,17 @@ export type {
 	Owner,
 	Repository,
 	CodeSearchResults,
-	CodeSearchResultsMatches
 }
 
 export {
 	initialCodeSearchResults,
 }
 
-type Repository = {
+type HtmlUrl = {
+	html_url: string;
+}
+
+type Repository = HtmlUrl & {
 	full_name: string;
 }
 
@@ -21,11 +24,12 @@ type Owner = {
 	repos_url: string;
 }
 
-type Item = {
+type Item = HtmlUrl & {
 	name: string;
 	path: string;
 	url: string;
 	repository: Repository;
+	text_matches?: TextMatches[];
 }
 
 type Match = {
@@ -38,21 +42,16 @@ type TextMatches = {
 	matches: Match[];
 }
 
-type CodeSearchResultsMatches = CodeSearchResults & {
-	text_matches: TextMatches[];
-}
-
 type CodeSearchResults = {
 	total_count: number;
 	incomplete_results: boolean;
 	items: Item[];
 }
 
-function initialCodeSearchResults(): CodeSearchResultsMatches {
+function initialCodeSearchResults(): CodeSearchResults {
 	return {
 		total_count: 0,
 		incomplete_results: false,
 		items: [],
-		text_matches: [],
 	}
 }

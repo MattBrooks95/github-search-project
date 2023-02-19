@@ -1,0 +1,36 @@
+.SearchResultItem-layout {
+	background-color: white;
+	padding: 4px;
+	color: black;
+}
+
+.SearchResultItem-layout.rounded-border {
+	border-radius: 8px;
+}
+
+.SearchResultItem-layout > div {
+	background-color: gray;
+}
+
+.SearchResultItem-links {
+	gap: 4px;
+}
+
+.SearchResultItem-links > div {
+	width: fit-content;
+	padding: 4px;
+	background-color: rgba(256, 128, 256);
+}
+
+.SearchResultItem-links .rounded-border {
+	border-radius: 6px;
+}
+
+.SearchResultItem-layout .code-fragments {
+	gap: 4px;
+}
+
+.SearchResultItem-layout .code-fragments > code {
+	display: block;
+	background-color: white;
+}
