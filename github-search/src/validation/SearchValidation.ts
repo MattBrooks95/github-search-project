@@ -16,6 +16,8 @@ export {
 //https://docs.github.com/en/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax
 
 /**
+* I wanted to implement the client side validaiton for the search
+* restrictions, but there are a ton of rules and I'm going to cut my losses
 * remove operators and qualifiers, then check the string length
 * length < 256 -> false
 * length > 256 -> true

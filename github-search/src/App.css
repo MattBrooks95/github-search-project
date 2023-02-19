@@ -28,3 +28,8 @@ body {
 .app-layout > * {
 	width: 100%;
 }
+
+.app-layout .results {
+	overflow-y: auto;
+	overflow-x: hidden;
+}

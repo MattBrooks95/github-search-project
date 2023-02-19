@@ -4,11 +4,13 @@ export type {
 	Repository,
 	CodeSearchResults,
 	RateLimit,
-	ApiResources
+	ApiResources,
+	Error,
 }
 
 export {
 	initialCodeSearchResults,
+	isError,
 }
 
 type HtmlUrl = {
@@ -48,6 +50,8 @@ type CodeSearchResults = {
 	total_count: number;
 	incomplete_results: boolean;
 	items: Item[];
+	nextLink?: string;
+	prevLink?: string;
 }
 
 function initialCodeSearchResults(): CodeSearchResults {
@@ -76,4 +80,11 @@ type RateLimit = {
 	remainingRequests: number | null;
 	usedRequests: number | null;
 	timeTillReset: number | null;
+}
+
+function isError(x: any): x is Error {
+	return (x as Error).message !== undefined;
+}
+type Error = {
+	message: string;
 }
