@@ -1,7 +1,6 @@
 .SearchResultItem-layout {
-	background-color: white;
 	padding: 4px;
-	color: black;
+	gap: 4px;
 }
 
 .SearchResultItem-layout.rounded-border {
@@ -16,10 +15,16 @@
 	gap: 4px;
 }
 
-.SearchResultItem-links > div {
-	width: fit-content;
+.SearchResultItem-links a {
+	color: black;
+}
+
+.SearchResultItem-links div {
 	padding: 4px;
 	background-color: rgba(256, 128, 256);
+	text-decoration: none;
+	font-weight: normal;
+	color: black;
 }
 
 .SearchResultItem-links .rounded-border {
@@ -28,9 +33,11 @@
 
 .SearchResultItem-layout .code-fragments {
 	gap: 4px;
+	color: black;
 }
 
 .SearchResultItem-layout .code-fragments > code {
 	display: block;
 	background-color: white;
+	padding: 6px;
 }
