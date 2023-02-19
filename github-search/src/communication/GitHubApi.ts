@@ -11,15 +11,10 @@ const searchCodeUrl = buildUrl(['search', 'code']);
 
 const rateLimitUrl = buildUrl(['rate_limit']);
 
-let clearRateLimitTimer: number | undefined = undefined;
-
 /**
 * search the github api
-* this has a side effect of starting the request limit timeout
-* so you must provide a function to be ran when the request limit gets reset
-* which will be called at the appropriate time
 **/
-async function search(searchString: string, onClearRateLimit: () => void): Promise<CodeSearchResults | null> {
+async function search(searchString: string): Promise<CodeSearchResults | null> {
 	const url = searchCodeUrl(encodeQuery(searchString));
 	console.log(url);
 	const headers = new Headers();
@@ -38,9 +33,7 @@ async function search(searchString: string, onClearRateLimit: () => void): Promi
 		const parseNumberWithDefaultToNull = (x: any) => defaultValTo(x, null, (y) => Number.parseInt(y, 10));
 		return res.json().then(jsonResult => {
 			const timeTillReset = defaultValTo(reset, 0, x => Number.parseInt(x) - (Math.floor(new Date().getTime() / 1000)));
-			if (clearRateLimitTimer !== undefined) clearTimeout(clearRateLimitTimer);
-			setTimeout(onClearRateLimit, timeTillReset);
-			
+			console.log(jsonResult)
 			return Object.assign(
 				{},
 				jsonResult as CodeSearchResults,
@@ -60,6 +53,9 @@ async function search(searchString: string, onClearRateLimit: () => void): Promi
 	});
 }
 
+/**
+* get the current rate limit information
+**/
 async function getResources(): Promise<ApiResources | null> {
 	return fetch(
 		rateLimitUrl(''),

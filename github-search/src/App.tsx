@@ -1,14 +1,14 @@
 import { Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { ApiResources, CodeSearchResults, initialCodeSearchResults, RateLimit } from './communication/apiTypes';
+import { ApiResources, CodeSearchResults, initialCodeSearchResults } from './communication/apiTypes';
 import { getResources, search } from './communication/GitHubApi';
 import { SearchBar } from './components/SearchBar';
 import { SearchResultItem } from './components/SearchResultItem';
 import './css/common.css';
 
 function App() {
-	const [searchString, setSearchString] = useState<string>("");
+	const [searchString, setSearchString] = useState<string>("map \\(\\ repo:MattBrooks95/advent-of-code");
 
 	const [searchResults, setSearchResults] = useState<CodeSearchResults>(initialCodeSearchResults);
 	const [rateState, setRateState] = useState<ApiResources | null>(null);
@@ -19,8 +19,7 @@ function App() {
 
 	async function doSearch() {
 		//need a condition to disallow submitting a search when we are over the rate limit
-		const searchResult = await search(searchString, () => setSearchDisabled(false));
-		console.log(searchResult);
+		const searchResult = await search(searchString);
 		if (searchResult !== null) setSearchResults(searchResult);
 	}
 
