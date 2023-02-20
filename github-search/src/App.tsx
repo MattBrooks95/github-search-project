@@ -20,6 +20,7 @@ function App() {
 	const searchEntryField = <TextField size="small" sx={{backgroundColor: "white"}} value={searchString} onChange={(e) => setSearchString(e.target.value)}></TextField>;
 
 	async function doPaginateSearch(url: string) {
+		if (rateState !== null && rateState.resources.search.remaining <= 0) return;
 		const searchResult = await search({searchLink: url});
 		if (searchResult !== null) setSearchResults(searchResult);
 	}
@@ -32,6 +33,7 @@ function App() {
 
 	function searchOnEnter(e: KeyboardEvent) {
 		//console.log(`key: ${e.key}`);
+		if (rateState !== null && rateState.resources.search.remaining <= 0) return;
 		if (e.key === "Enter") {
 			doSearch();
 		}
