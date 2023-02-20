@@ -66,6 +66,7 @@ async function searchUrl(url: string): Promise<CodeSearchResults | Error | null>
 		const {prevUrl, nextUrl} = getLinkUrls(link);
 		console.log({ link, nextUrl, prevUrl });
 		const parseNumberWithDefaultToNull = (x: any) => defaultValTo(x, null, (y) => Number.parseInt(y, 10));
+		console.log(res);
 		return res.json().then(jsonResult => {
 			const timeTillReset = defaultValTo(reset, 0, x => Number.parseInt(x) - (Math.floor(new Date().getTime() / 1000)));
 			console.log(jsonResult)
@@ -120,7 +121,7 @@ function getLinkUrls(link: string | null): {
 	const prevUrlMatches = link.match(/<(\S+)>; rel="prev"/);
 
 	return {
-		nextUrl: nextUrlMatches !== null && nextUrlMatches.length > 0 ? nextUrlMatches[0] : undefined,
-		prevUrl: prevUrlMatches !== null && prevUrlMatches.length > 0 ? prevUrlMatches[0] : undefined,
+		nextUrl: nextUrlMatches !== null && nextUrlMatches.length > 1 ? nextUrlMatches[1] : undefined,
+		prevUrl: prevUrlMatches !== null && prevUrlMatches.length > 1 ? prevUrlMatches[1] : undefined,
 	}
 }
