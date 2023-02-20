@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, InputLabel, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './App.css';
 import { ApiResources, CodeSearchResults, initialCodeSearchResults, isError } from './communication/apiTypes';
@@ -13,9 +13,11 @@ function App() {
 	const [searchResults, setSearchResults] = useState<CodeSearchResults | Error>(initialCodeSearchResults);
 	const [rateState, setRateState] = useState<ApiResources | null>(null);
 
+	const [resultsPerPage, setResultsPerPage] = useState(5);
+
 	const [searchDisabled, setSearchDisabled] = useState<boolean>(false);
 
-	const searchEntryField = <TextField sx={{backgroundColor: "white"}} value={searchString} onChange={(e) => setSearchString(e.target.value)}></TextField>;
+	const searchEntryField = <TextField size="small" sx={{backgroundColor: "white"}} value={searchString} onChange={(e) => setSearchString(e.target.value)}></TextField>;
 
 	async function doPaginateSearch(url: string) {
 		const searchResult = await search({searchLink: url});
@@ -24,7 +26,7 @@ function App() {
 
 	async function doSearch() {
 		//need a condition to disallow submitting a search when we are over the rate limit
-		const searchResult = await search({searchString});
+		const searchResult = await search({searchString}, resultsPerPage);
 		if (searchResult !== null) setSearchResults(searchResult);
 	}
 
@@ -64,14 +66,23 @@ function App() {
 		}
 	}, []);
 
+	const newPerPageValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const newVal = Number.parseInt(e.target.value, 10);
+		if (Number.isNaN(newVal) || newVal <= 0) return 0;
+		setResultsPerPage(newVal);
+	};
+
 	return (
 		<div className="app-layout fill-parent flex-col">
 		<SearchBar
 			searchField={searchEntryField}
 			searchButton={<Button disabled={rateState !== null && rateState.resources.search.remaining === 0} variant="contained" onClick={doSearch}>Search</Button>}
 			rateLimit={rateState}
+			//perPageControl={<div style={{backgroundColor: "white", padding: "6px",}}><TextField size="small" variant="outlined" label="Results per page" type="number" value={resultsPerPage} onChange={newPerPageValue} /></div>}
+			perPageControl={<div style={{backgroundColor: "white", padding: "6px",}}><TextField size="small" variant="outlined" label="Results per page" type="number" value={resultsPerPage} onChange={newPerPageValue} /></div>}
 			/>
-			<div>
+			<div className="flex-row">
+			
 			{!isError(searchResults) && searchResults.prevLink !== undefined && <Button variant="contained" onClick={() => doPaginateSearch(searchResults.prevLink as string)}>Prev Page</Button>}
 			{!isError(searchResults) && searchResults.nextLink !== undefined && <Button variant="contained" onClick={() => doPaginateSearch(searchResults.nextLink as string)}>Next Page</Button>}
 			</div>

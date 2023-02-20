@@ -1,10 +1,11 @@
 import { ReactElement } from "react";
-import { ApiResources, RateLimit } from "../communication/apiTypes";
+import { ApiResources } from "../communication/apiTypes";
 import "./SearchBar.css"
 
 type SearchBarProps = {
 	searchButton: ReactElement;
 	searchField: ReactElement;
+	perPageControl: ReactElement;
 	rateLimit: ApiResources | null;
 }
 export function SearchBar(props: SearchBarProps) {
@@ -13,6 +14,7 @@ export function SearchBar(props: SearchBarProps) {
 	<div className="SearchBar-layout flex-col">
 		<div className="search-bar flex-row">
 			{props.searchField}
+			{props.perPageControl}
 			{props.searchButton}
 		</div>
 		{props.rateLimit !== null && <div className="rate-limit flex-row">

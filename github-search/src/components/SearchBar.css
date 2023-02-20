@@ -4,6 +4,10 @@
 	gap: 6px;
 }
 
+.SearchBar-layout .search-bar {
+	gap: 12px;
+	height: 48px;
+}
 .SearchBar-layout .search-bar :nth-child(1) {
 	flex-grow: 2;
 }
